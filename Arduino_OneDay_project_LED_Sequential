@@ -1,0 +1,40 @@
+const int LED_FLOOR[7] = {A0, 2, 3, 4, 5, 6, 7}; // LED 핀 배열
+unsigned long previousMillis = 0;
+int current_LED = 0;  // 현재 LED 위치
+int direction = 1;  // LED 방향 (1: 위로, -1: 아래로)
+
+void setup() {
+    // 모든 LED 핀을 출력 모드로 설정
+    for (int i = 0; i < 7; i++)
+    {
+        pinMode(LED_FLOOR[i], OUTPUT);
+        digitalWrite(LED_FLOOR[i], LOW); // 🔹 초기 상태: 모든 LED OFF
+    }
+  	digitalWrite(LED_FLOOR[0], HIGH);
+}
+
+void loop() {
+    unsigned long currentMillis = millis();
+
+    // 일정 시간(interval)마다 실행
+    if (currentMillis - previousMillis >= 1000) {  // 🔹 정확한 간격 비교 (== 대신 >= 사용)
+        previousMillis = currentMillis;  // 🔹 이전 시간 업데이트
+      
+
+        // 현재 LED 끄기
+        digitalWrite(LED_FLOOR[current_LED], LOW);
+
+        // 다음 LED 결정
+        current_LED += direction;
+		
+      	// 현재 LED 켜기
+      	digitalWrite(LED_FLOOR[current_LED], HIGH);
+
+        // 끝에 도달하면 방향 변경 (올라갔다가 내려가도록)
+        if (current_LED == 6) {
+            direction = -1;  // 내려가기
+        } else if (current_LED == 0) {
+            direction = 1;  // 다시 올라가기
+        }
+    }
+}
