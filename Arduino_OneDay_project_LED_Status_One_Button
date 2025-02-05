@@ -1,0 +1,33 @@
+const int LED_STATUS = 8;
+const int PUSH_BUTTON = 11;
+int PREV_BUTTON_STATUS = LOW;
+bool CALL = LOW;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(LED_STATUS, OUTPUT);
+  pinMode(PUSH_BUTTON, INPUT);
+  digitalWrite(LED_STATUS, LOW);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int current_button_status = digitalRead(PUSH_BUTTON);
+  
+  if(PREV_BUTTON_STATUS == LOW && current_button_status == HIGH)
+  {
+    if(CALL)
+    {
+      CALL = LOW;
+      digitalWrite(LED_STATUS, LOW);
+    }
+    else
+    {
+      CALL = HIGH;
+      digitalWrite(LED_STATUS, HIGH);
+    }
+  }	
+	PREV_BUTTON_STATUS = current_button_status;
+}
+
